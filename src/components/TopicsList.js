@@ -1,11 +1,16 @@
-import React from 'react';
-import TopicsListItem from './TopicsListItem';
+import React, {useEffect} from 'react';
+import {ListItem, ListItemText} from '@material-ui/core';
 
 
-const TopicsList = () => {
+const TopicsList = ({rooms, setActiveRoom}) => {
+    useEffect(() => console.log(rooms), [])
     return (
         <ul>
-            <TopicsListItem />
+            {rooms.map((room, id) => <ListItem key={id}
+                                         button
+                                         onClick={e => setActiveRoom(e.target.innerText)}>
+                                        <ListItemText primary={room}/>
+                                </ListItem>)}
         </ul>
     );
 };

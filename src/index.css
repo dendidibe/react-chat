@@ -224,3 +224,7 @@ main footer a{
     margin-top:5px;
     display:inline-block;
 } 
+.MuiListItemText-primary {
+    color: #fff!important;
+
+}
