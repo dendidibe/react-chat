@@ -1,4 +1,4 @@
-import React, {useState, useReducer, useEffect} from 'react';
+import React, {useState, useReducer} from 'react';
 import {initialState, reducer} from "./Context/ContextState";
 import './Login.css'
 import {Link} from "react-router-dom";

@@ -1,16 +1,15 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Search from "./Search";
 import TopicsList from "./TopicsList";
 import ChatHeader from "./ChatHeader";
-import Messages from "./Messages";
 import Context from "./Context/Context";
-import {Link} from "react-router-dom";
+import Footer from "./Footer";
+import Message from "./Message";
 
 const Chat = () => {
-    const [chats] = useContext(Context);
+    const {chats} = useContext(Context);
     const rooms = Object.keys(chats);
     const [activeRoom, setActiveRoom] = useState(rooms[0]);
-
     return (
         <div className="App">
             <div id="container">
@@ -20,8 +19,10 @@ const Chat = () => {
                 </aside>
                 <main>
                     <ChatHeader activeRoom={activeRoom}/>
-                    <Messages activeRoom={activeRoom}/>
-                    <Link to='/'>sdfdsfdsfds</Link>
+                    <ul id="chat">
+                        {chats[activeRoom].map((room, index) => <Message key={index} room={room}/>)}
+                    </ul>
+                    <Footer activeRoom={activeRoom} />
                 </main>
             </div>
         </div>

@@ -3,7 +3,6 @@ import {ListItem, ListItemText} from '@material-ui/core';
 
 
 const TopicsList = ({rooms, setActiveRoom}) => {
-    useEffect(() => console.log(rooms), [])
     return (
         <ul>
             {rooms.map((room, id) => <ListItem key={id}
