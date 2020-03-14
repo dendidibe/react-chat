@@ -1,14 +1,13 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import Message from "./Message";
-import Context from "./Context/Context";
 
 
-const Messages = ({activeRoom, rooms}) => {
+const Messages = ({messages, name}) => {
 
     return (
-        <div>
-
-        </div>
+        <ul id="chat">
+            {messages.map((message, index) => <Message key={index} message={message} name={name}/>)}
+        </ul>
     );
 };
 

@@ -1,41 +1,71 @@
-import React, {useReducer} from 'react';
+import React, {useEffect, useReducer} from 'react';
 import Context from "./Context";
 import io from 'socket.io-client';
 
 export const initialState = {
-    general: [{user: 'Dave', text: 'Hi', room: 3111}],
-    work: [{user: 'USer', text: 'Fuck', room: 3111}]
+    name: '',
+    room: '',
+    message: '',
+    messages: []
 }
 
 export const reducer = (state = initialState, action) => {
-    const {user, text, room} = action.payload;
+    const {name, room} = action.payload;
+
+    console.log(action)
     switch (action.type) {
-        case 'RECEIEVE_MESSAGE':
+        case 'RECEIVE_MESSAGE':
             return {
                 ...state,
-                [room]: [...state[room], {user, text}]
+                messages: [...state.messages, action.payload]
             };
+
+            case 'NEW_USER':
+            return {
+                ...state,
+                name, room
+            }
+
         default:
             return state
     }
 }
 
 let socket;
-function sendMessage(value) {
-    socket.emit('message', value)
-}
+
 
 const ContextState = ({children}) => {
-    const [chats, dispatch] = useReducer(reducer, initialState)
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const {message, messages, name, room} = state;
+
     if (!socket) {
         socket = io(':3001')
-        socket.on('message', (msg) => {
-            dispatch({type: 'RECEIEVE_MESSAGE', payload: msg})
-        })
     }
-    const user = 'misha' + Math.random(100).toFixed()
+    useEffect(() => {
+        if (name && room) {
+            socket.emit('join', {name, room}, (error) => {
+                if(error) {
+                    alert(error)
+                }
+            })
+        }
+
+    }, [name, room]);
+
+    useEffect(() => {
+        socket.on('message', (message)=> {
+            dispatch({type: 'RECEIVE_MESSAGE', payload: message})
+        });
+
+        return () => {socket.emit('disconnect'); socket.off()}
+    },[messages]);
+
+    function sendMessage(message) {
+        socket.emit('sendMessage', message, () => {console.log(' ')})
+    }
+
     return (
-        <Context.Provider value={{chats, sendMessage, user}}>
+        <Context.Provider value={{message, messages, name, room, dispatch, sendMessage}}>
             {children}
         </Context.Provider>
     );

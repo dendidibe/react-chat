@@ -1,17 +1,17 @@
-import React, {useState, useReducer} from 'react';
-import {initialState, reducer} from "./Context/ContextState";
+import React, {useState, useContext} from 'react';
+import Context from "./Context/Context";
 import './Login.css'
 import {Link} from "react-router-dom";
 
 
 const Login = () => {
-    const [user, setUser] = useState('');
+    const [name, setName] = useState('');
     const [room, setRoom] = useState('');
-    const [state, dispatch] = useReducer(reducer, initialState);
-    const payload = {user, room}
+    const {dispatch} = useContext(Context)
+    const payload = {name, room};
     const action = (payload) => {
-        dispatch({type: 'NEW_ROOM', payload})
-        setUser('');
+        dispatch({type: 'NEW_USER', payload})
+        setName('');
         setRoom('')
     }
 
@@ -20,12 +20,14 @@ const Login = () => {
             <form className="joinInnerContainer" onSubmit={e => {e.preventDefault(); action(payload)}}>
                 <h1 className="heading">Join</h1>
                 <div>
-                    <input placeholder="Name" className="joinInput" type="text" value={user} onChange={(event) => setUser(event.target.value)} />
+                    <input placeholder="Name" className="joinInput" type="text" value={name} onChange={(event) => setName(event.target.value)} />
                 </div>
                 <div>
                     <input placeholder="Room" className="joinInput mt-20" type="text" value={room} onChange={(event) => setRoom(event.target.value)} />
                 </div>
-                    <Link className={'button mt-20'} to='/chat' type="submit">Sign In</Link>
+                <Link  to='/chat' onClick={e => (!name || !room) ? e.preventDefault() : action(payload)}>
+                    <button className={'button mt-20'} type="submit"  >Sign In</button>
+                </Link>
             </form>
         </div>
     );
