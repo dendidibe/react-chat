@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import Context from "./Context/Context";
 import './Login.css'
 import {Link} from "react-router-dom";
@@ -7,8 +7,13 @@ import {Link} from "react-router-dom";
 const Login = () => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
-    const {dispatch} = useContext(Context)
+    const {dispatch} = useContext(Context);
     const payload = {name, room};
+
+    useEffect(() => {
+        localStorage.setItem('loginData', JSON.stringify(payload));
+    }, [name, room])
+
     const action = (payload) => {
         dispatch({type: 'NEW_USER', payload})
         setName('');

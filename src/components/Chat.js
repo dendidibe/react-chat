@@ -1,19 +1,18 @@
-import React, {useContext, useEffect, useReducer} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Search from "./Search";
 import TopicsList from "./TopicsList";
 import ChatHeader from "./ChatHeader";
 import Context from "./Context/Context";
 import Footer from "./Footer";
 import Messages from "./Messages";
-import io from 'socket.io-client'
-let socket;
 
 const Chat = () => {
-    const {message, messages, room, name, dispatch, sendMessage} = useContext(Context);
+    const {messages, room, name, dispatch, sendMessage} = useContext(Context);
 
-
-
-
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('loginData'));
+        if (user) dispatch({type: 'RESTORE_USER', payload: user});
+    }, [])
 
     return (
         <div className="App">

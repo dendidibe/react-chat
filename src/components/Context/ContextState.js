@@ -11,8 +11,6 @@ export const initialState = {
 
 export const reducer = (state = initialState, action) => {
     const {name, room} = action.payload;
-
-    console.log(action)
     switch (action.type) {
         case 'RECEIVE_MESSAGE':
             return {
@@ -20,11 +18,13 @@ export const reducer = (state = initialState, action) => {
                 messages: [...state.messages, action.payload]
             };
 
-            case 'NEW_USER':
+        case 'NEW_USER':
+        case 'RESTORE_USER':
             return {
                 ...state,
                 name, room
             }
+
 
         default:
             return state
@@ -39,7 +39,7 @@ const ContextState = ({children}) => {
     const {message, messages, name, room} = state;
 
     if (!socket) {
-        socket = io(':3001')
+        socket = io(':3001');
     }
     useEffect(() => {
         if (name && room) {
@@ -57,7 +57,10 @@ const ContextState = ({children}) => {
             dispatch({type: 'RECEIVE_MESSAGE', payload: message})
         });
 
-        return () => {socket.emit('disconnect'); socket.off()}
+        return () => {
+            socket.emit('disconnect');
+            socket.off()
+        }
     },[messages]);
 
     function sendMessage(message) {
