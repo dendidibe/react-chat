@@ -1,5 +1,4 @@
-import React, {useContext, useEffect} from 'react';
-import Search from "./Search";
+import React, { useContext, useEffect } from "react";
 import TopicsList from "./TopicsList";
 import ChatHeader from "./ChatHeader";
 import Context from "./Context/Context";
@@ -7,28 +6,23 @@ import Footer from "./Footer";
 import Messages from "./Messages";
 
 const Chat = () => {
-    const {messages, room, name, dispatch, sendMessage} = useContext(Context);
+  const { messages, room, name, dispatch, sendMessage } = useContext(Context);
 
-    useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('loginData'));
-        if (user) dispatch({type: 'RESTORE_USER', payload: user});
-    }, [])
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("loginData"));
+    if (user) dispatch({ type: "RESTORE_USER", payload: user });
+  }, [dispatch]);
 
-    return (
-        <div className="App">
-            <div id="container">
-                <aside>
-                    <Search />
-                    <TopicsList />
-                </aside>
-                <main>
-                    <ChatHeader  name={name} room={room}/>
-                    <Messages messages={messages} name={name}/>
-                    <Footer sendMessage={sendMessage} />
-                </main>
-            </div>
-        </div>
-    );
+  return (
+    <div className="chat">
+      <TopicsList />
+      <div className="chat-container">
+        <ChatHeader name={name} room={room} />
+        <Messages messages={messages} name={name} />
+        <Footer sendMessage={sendMessage} />
+      </div>
+    </div>
+  );
 };
 
 export default Chat;

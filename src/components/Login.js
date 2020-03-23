@@ -1,41 +1,44 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, { useState, useContext, useEffect } from "react";
 import Context from "./Context/Context";
-import './Login.css'
-import {Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import {TextField, Button} from "@material-ui/core";
 
 const Login = () => {
-    const [name, setName] = useState('');
-    const [room, setRoom] = useState('');
-    const {dispatch} = useContext(Context);
-    const payload = {name, room};
+  const [name, setName] = useState("");
+  const [room, setRoom] = useState("");
 
-    useEffect(() => {
-        localStorage.setItem('loginData', JSON.stringify(payload));
-    }, [name, room])
+  const { dispatch } = useContext(Context);
+  const loginData = { name, room };
 
-    const action = (payload) => {
-        dispatch({type: 'NEW_USER', payload})
-        setName('');
-        setRoom('')
-    }
+  useEffect(() => {
+    localStorage.setItem("loginData", JSON.stringify(loginData));
+  }, [loginData]);
 
-    return (
-        <div className="joinOuterContainer">
-            <form className="joinInnerContainer" onSubmit={e => {e.preventDefault(); action(payload)}}>
-                <h1 className="heading">Join</h1>
-                <div>
-                    <input placeholder="Name" className="joinInput" type="text" value={name} onChange={(event) => setName(event.target.value)} />
-                </div>
-                <div>
-                    <input placeholder="Room" className="joinInput mt-20" type="text" value={room} onChange={(event) => setRoom(event.target.value)} />
-                </div>
-                <Link  to='/chat' onClick={e => (!name || !room) ? e.preventDefault() : action(payload)}>
-                    <button className={'button mt-20'} type="submit"  >Sign In</button>
-                </Link>
-            </form>
-        </div>
-    );
+  const sendData = payload => {
+    dispatch({ type: "NEW_USER", payload });
+    setName("");
+    setRoom("");
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    sendData(loginData);
+  }
+
+  return (
+    <div className="login-container">
+      <form className="login-form" onSubmit={submitHandler}>
+      <TextField id="outlined-basic" label="Name" variant="outlined" className="login-form__input" value={name} onChange={e => setName(e.target.value)}/>
+      <TextField id="outlined-basic" label="Room" variant="outlined" className="login-form__input" value={room} onChange={e => setRoom(e.target.value)}/>
+        <Link
+          to="/chat"
+          onClick={e => (!name || !room ? e.preventDefault() : sendData(loginData))}
+        >
+          <Button variant="contained" type="submit" className="login-form__button">Sign In</Button>
+        </Link>
+      </form>
+    </div>
+  );
 };
 
 export default Login;

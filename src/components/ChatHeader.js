@@ -1,16 +1,17 @@
-import React from 'react';
+import React, {useContext} from "react";
+import Context from "./Context/Context";
 
-const ChatHeader = ({name, room}) => {
+const ChatHeader = ({ room }) => {
+    const { users } = useContext(Context);
+
     return (
-        <header>
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt=""/>
-            <div>
-                <h2>{name}</h2>
-                <h3>Room: {room}</h3>
-            </div>
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt=""/>
-        </header>
-    );
+    <header className="chat-header">
+      <div className="chat-header__room">
+        <span className="chat-header__room--title">Room: {room}</span>
+      </div>
+      <span className="chat-header__users">Users in room: {users.length}</span>
+    </header>
+  );
 };
 
 export default ChatHeader;

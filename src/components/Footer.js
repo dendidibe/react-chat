@@ -1,30 +1,28 @@
-import React, {useState, useContext} from 'react';
-import Context from './Context/Context'
+import React, { useState } from "react";
+import sendButton from './telegram.png'
+const Footer = ({ sendMessage }) => {
+  const [message, setMessage] = useState("");
 
-const Footer = ({sendMessage}) => {
-    const [message, setMessage] = useState('')
+  const submitHandler = e => {
+    e.preventDefault();
+    if (message)  sendMessage(message);
+    setMessage("");
+  };
 
-    const submitHandler = e => {
-       e.preventDefault();
-       sendMessage(message)
-        setMessage('')
-    }
-
-    return ( 
-        <footer>
-            <form
-                onSubmit={submitHandler}
-            >
-                <div>
-                    <input placeholder="Type your message" value={message} onChange={e => setMessage(e.target.value)}/>
-                </div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png" alt=""/>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_file.png" alt=""/>
-                <button type='submit'>Send</button>
-            </form>
-
-        </footer>
-    );
+  return (
+    <form className="chat-form" onSubmit={submitHandler}>
+      <input
+        type="text"
+        placeholder="Write a message"
+        className="chat-form__input"
+        value={message}
+        onChange={e => setMessage(e.target.value)}
+      />
+      <button type="submit">
+        <img src={sendButton} alt="" />
+      </button>
+    </form>
+  );
 };
 
 export default Footer;
