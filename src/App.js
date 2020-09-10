@@ -1,22 +1,16 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch
-} from "react-router-dom";
+import { Router, Redirect, Route, Switch } from "react-router-dom";
 import Login from "./components/Login";
 import Chat from "./components/Chat";
-import {ProtectedRoute} from "./components/ProtectedRoute";
-
-
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import history from "./components/history/history";
 
 function App() {
   return (
-    <Router>
+    <Router history={history}>
       <Switch>
         <Route path="/" exact component={Login} />
-        <ProtectedRoute path='/chat'>
+        <ProtectedRoute path="/chat">
           <Route component={Chat} />
         </ProtectedRoute>
         <Redirect to="/" />

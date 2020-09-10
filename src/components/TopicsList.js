@@ -8,7 +8,7 @@ const TopicsList = () => {
   return (
     <aside className="chat-menu">
       <div className="chat-menu__header">
-        <h3 className="chat-menu__title">Users in room</h3>
+        <h3 className="chat-menu__title">Users in room: </h3>
       </div>
       <div className="chat-menu__rooms">
         <div className="chat-menu__room">

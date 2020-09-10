@@ -1,14 +1,15 @@
 import React, { useEffect, useReducer } from "react";
 import Context from "./Context";
 import io from "socket.io-client";
-import {reducer} from "./reducer";
+import { reducer } from "./reducer";
+import history from "../history/history";
 
 export const initialState = {
   name: "",
   room: "",
   users: "",
   message: "",
-  messages: []
+  messages: [],
 };
 let socket;
 
@@ -21,9 +22,10 @@ const ContextState = ({ children }) => {
   }
   useEffect(() => {
     if (name && room) {
-      socket.emit("join", { name, room }, error => {
+      socket.emit("join", { name, room }, (error) => {
         if (error) {
           alert(error);
+          history.push("/");
         }
       });
     }
@@ -34,7 +36,7 @@ const ContextState = ({ children }) => {
       dispatch({ type: "RECEIVE_USERS", payload: users });
     });
 
-    socket.on("message", message => {
+    socket.on("message", (message) => {
       dispatch({ type: "RECEIVE_MESSAGE", payload: message });
     });
 
@@ -59,7 +61,7 @@ const ContextState = ({ children }) => {
         name,
         room,
         dispatch,
-        sendMessage
+        sendMessage,
       }}
     >
       {children}
