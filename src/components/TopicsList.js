@@ -15,8 +15,8 @@ const TopicsList = () => {
           <div className="chat-menu__room--description">
             {users &&
               users.map(({ name, id }) => (
-                <ListItem key={id} button>
-                  <ListItemText primary={name} />
+                <ListItem key={id} className="list-item">
+                  <ListItemText primary={name.toUpperCase()} />
                 </ListItem>
               ))}
           </div>

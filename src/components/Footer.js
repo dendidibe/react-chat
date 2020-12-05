@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import sendButton from './telegram.png'
+import sendButton from '../assets/telegram.png';
+
 const Footer = ({ sendMessage }) => {
   const [message, setMessage] = useState("");
 

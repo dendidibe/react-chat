@@ -124,17 +124,20 @@ img {
 }
 .chat-menu__title {
   color: #ffffff;
+  white-space: nowrap;
 }
 .chat-menu__room {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
+  width: 8rem;
   text-align: left;
 }
 .chat-menu__room--description {
-  margin-left: 15px;
   color: #fff;
+  width: 100%;
+  white-space: nowrap;
+  word-break: break-all;
 }
 .chat form {
   width: 100%;
@@ -172,6 +175,11 @@ img {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+.list-item {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  margin-top: 10px;
 }
 .login-container .login-form .login-form__input {
   display: inline-block;
